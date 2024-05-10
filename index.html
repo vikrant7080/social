@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Poster</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="mb-4">Social Media Poster</h1>
+    <!-- Login Form -->
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+    <hr>
+
+    <!-- Post Form for Twitter -->
+    <form id="twitterPostForm">
+      <div class="form-group">
+        <label for="tweetText">Tweet Text:</label>
+        <input type="text" class="form-control" id="tweetText" name="tweetText" required>
+      </div>
+      <button type="submit" class="btn btn-success">Post Tweet</button>
+    </form>
+
+    <hr>
+
+    <!-- Post Form for LinkedIn -->
+    <form id="linkedinPostForm">
+      <div class="form-group">
+        <label for="linkedinText">LinkedIn Text:</label>
+        <input type="text" class="form-control" id="linkedinText" name="linkedinText" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Post on LinkedIn</button>
+    </form>
+  </div>
+
+  <!-- Axios CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    // Login Form Submit
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      const userData = Object.fromEntries(formData);
+      // Make POST request to Flask API for login
+      axios.post('/login', userData)
+        .then(function(response) {
+          console.log(response.data);
+          alert('Login successful!');
+        })
+        .catch(function(error) {
+          console.error(error);
+          alert('Login failed!');
+        });
+    });
+
+    // Twitter Post Form Submit
+    document.getElementById('twitterPostForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const tweetText = document.getElementById('tweetText').value;
+      // Make POST request to Flask API for posting tweet on Twitter
+      axios.post('/post_tweet', { tweetText: tweetText })
+        .then(function(response) {
+          console.log(response.data);
+          alert('Tweet posted successfully!');
+        })
+        .catch(function(error) {
+          console.error(error);
+          alert('Error posting tweet!');
+        });
+    });
+
+    // LinkedIn Post Form Submit
+    document.getElementById('linkedinPostForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const linkedinText = document.getElementById('linkedinText').value;
+      // Make POST request to Flask API for posting on LinkedIn
+      axios.post('/post_linkedin', { linkedinText: linkedinText })
+        .then(function(response) {
+          console.log(response.data);
+          alert('Post on LinkedIn successful!');
+        })
+        .catch(function(error) {
+          console.error(error);
+          alert('Error posting on LinkedIn!');
+        });
+    });
+  </script>
+</body>
+</html>
